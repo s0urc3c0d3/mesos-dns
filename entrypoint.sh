@@ -10,7 +10,7 @@ echo >> /config.json <<EOF
 		"domain":"$MESOS_DOMAIN",
 		"ns":"ns1",
 		"port":$PORT,
-		"resolvers":[$RESOLVERS],
+		"resolvers":["$RESOLVERS"],
 		"timeout":$timeout,
 		"listener":"$listener",
 		"SOAMname":"root.ns1.$MESOS_DOMAIN",
