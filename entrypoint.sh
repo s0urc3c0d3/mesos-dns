@@ -31,4 +31,4 @@ echo >> /config.json <<EOF
 }
 EOF
 
-exec /usr/bin/mesos-dns -v=2 -config=/config.json
+exec /mesos-dns -v=2 -config=/config.json
