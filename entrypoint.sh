@@ -31,4 +31,6 @@ cat > /config.json <<EOF
 }
 EOF
 
+cat /config.json
+
 exec /mesos-dns -v=2 -config=/config.json
