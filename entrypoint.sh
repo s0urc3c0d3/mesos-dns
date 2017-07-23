@@ -5,7 +5,7 @@ MESOS_MASTERS_ARRAY=$(echo $MESOS_MASTERS | awk -F, '{for (i=1;i<NF+1;i++) {prin
 cat > /config.json <<EOF 
 {
 	"zk":"zk://$ZK_ADDRESSES/mesos",
-		"masters":[$MESOS_MASTERS_ARRAY]",
+		"masters":[$MESOS_MASTERS_ARRAY],
 		"stateTimeoutSeconds":$stateTimeoutSeconds,
 		"refreshSeconds":$refreshSeconds,
 		"ttl":$ttl,
