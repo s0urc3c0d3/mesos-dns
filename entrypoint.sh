@@ -2,9 +2,21 @@
 
 MESOS_MASTERS_ARRAY=$(echo $MESOS_MASTERS | awk -F, '{for (i=1;i<NF+1;i++) {print "\""$i"\""}} END {print ""}' | tr '\n' ',' | sed 's/,,//g')
 
+#!/bin/bash
+
+ZK_IPs=","
+
+for i in $(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/zookeeper/containers/ | awk -F= '{print $2}')
+do
+        ZK_IPs="${ZK_IPs},$(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/zookeeper/containers/${i}/primary_ip):2181"
+done
+
+ZK_IPs=$(echo $ZK_IPs | sed 's/,,//g')
+
+
 cat > /config.json <<EOF 
 {
-	"zk":"zk://$ZK_ADDRESSES/mesos",
+	"zk":"zk://$ZK_IPs/mesos",
 		"masters":[$MESOS_MASTERS_ARRAY],
 		"stateTimeoutSeconds":$stateTimeoutSeconds,
 		"refreshSeconds":$refreshSeconds,
