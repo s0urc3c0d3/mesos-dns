@@ -7,7 +7,7 @@ do
         MESOS_IPs="${MESOS_IPs},$(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/mesos-master/containers/${i}/primary_ip):5050"
 done
 
-MESOS_MATERSs=$(echo $MESOS_IPs | sed 's/,,//g')
+MESOS_MATERS=$(echo $MESOS_IPs | sed 's/,,//g')
 
 MESOS_MASTERS_ARRAY=$(echo $MESOS_MASTERS | awk -F, '{for (i=1;i<NF+1;i++) {print "\""$i"\""}} END {print ""}' | tr '\n' ',' | sed 's/,,//g')
 
