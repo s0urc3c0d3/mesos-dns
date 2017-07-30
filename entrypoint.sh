@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cron 
+crond
 crontab -r
 echo "*/5 * * * * /gen_hosts.sh > /etc/hosts" > /tmp/mycron 
 crontab /tmp/mycron
