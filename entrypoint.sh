@@ -1,5 +1,10 @@
 #!/bin/bash
 
+cron 
+crontab -r
+echo "*/5 * * * * /gen_hosts.sh > /etc/hosts" > /tmp/mycron 
+crontab /tmp/mycron
+
 MESOS_IPs=","
 
 for i in $(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/mesos-master/containers/ | awk -F= '{print $2}')
