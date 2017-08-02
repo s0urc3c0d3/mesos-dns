@@ -5,11 +5,13 @@ crontab -r
 echo "*/5 * * * * /gen_hosts.sh > /etc/hosts" > /tmp/mycron 
 crontab /tmp/mycron
 
+my_stack=$(curl -s rancher-metadata.rancher.internal/2015-12-19/self/stack/name)
+
 MESOS_IPs=","
 
-for i in $(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/mesos-master/containers/ | awk -F= '{print $2}')
+for i in $(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/${my_stack}/services/mesos-master/containers/ | awk -F= '{print $2}')
 do
-        MESOS_IPs="${MESOS_IPs},$(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/mesos-master/containers/${i}/primary_ip):5050"
+        MESOS_IPs="${MESOS_IPs},$(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/${my_stack}/services/mesos-master/containers/${i}/primary_ip):5050"
 done
 
 MESOS_MASTERS=$(echo $MESOS_IPs | sed 's/,,//g')
@@ -20,9 +22,9 @@ MESOS_MASTERS_ARRAY=$(echo $MESOS_MASTERS | awk -F, '{for (i=1;i<NF+1;i++) {prin
 
 ZK_IPs=","
 
-for i in $(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/zookeeper/containers/ | awk -F= '{print $2}')
+for i in $(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/${my_stack}/services/zookeeper/containers/ | awk -F= '{print $2}')
 do
-        ZK_IPs="${ZK_IPs},$(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/mesos/services/zookeeper/containers/${i}/primary_ip):2181"
+        ZK_IPs="${ZK_IPs},$(curl -s rancher-metadata.rancher.internal/2015-12-19/stacks/${my_stack}/services/zookeeper/containers/${i}/primary_ip):2181"
 done
 
 ZK_IPs=$(echo $ZK_IPs | sed 's/,,//g')
